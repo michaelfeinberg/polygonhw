@@ -58,7 +58,7 @@ void draw_polygons( struct matrix *polygons, screen s, color c ) {
   
   int i;
   for(i=0; i<polygons->lastcol-1; i+=3){
-    double x,y,z,ux,uy,uz,vx,vy,vz;
+    /*double x,y,z,ux,uy,uz,vx,vy,vz;
     ux = polygons->m[0][i+1] - polygons->m[0][i];
     uy = polygons->m[1][i+1] - polygons->m[1][i];
     uz = polygons->m[2][i+1] - polygons->m[2][i];
@@ -66,7 +66,7 @@ void draw_polygons( struct matrix *polygons, screen s, color c ) {
     vy = polygons->m[1][i+2] - polygons->m[1][i];
     vz = polygons->m[2][i+2] - polygons->m[2][i];
     find_normal(&x,&y,&z,ux,uy,uz,vx,vy,vz);
-    if(z > 0){
+    if(z > 0){*/
       draw_line( polygons->m[0][i],
 		 polygons->m[1][i],
 		 polygons->m[0][i+1],
@@ -84,7 +84,7 @@ void draw_polygons( struct matrix *polygons, screen s, color c ) {
 		 polygons->m[0][i],
 		 polygons->m[1][i],
 		 s, c);
-    }
+      //}
   }
 }
 
