@@ -57,8 +57,8 @@ void draw_polygons( struct matrix *polygons, screen s, color c ) {
   }
   
   int i;
-  for(i=0; i<polygons->lastcol-1; point+=3){
-    double x,y,z,ux,uy,uz,vx,vy,vz;
+  for(i=0; i<polygons->lastcol-1; i+=3){
+    /*double x,y,z,ux,uy,uz,vx,vy,vz;
     ux = polygons->m[0][i+1] - polygons->m[0][i];
     uy = polygons->m[1][i+1] - polygons->m[1][i];
     uz = polygons->m[2][i+1] - polygons->m[2][i];
@@ -66,25 +66,25 @@ void draw_polygons( struct matrix *polygons, screen s, color c ) {
     vy = polygons->m[1][i+2] - polygons->m[1][i];
     vz = polygons->m[2][i+2] - polygons->m[2][i];
     find_normal(&x,&y,&z,ux,uy,uz,vx,vy,vz);
-    if(z > 0){
-      draw_line( polygons->m[0][point],
-		 polygons->m[1][point],
-		 polygons->m[0][point+1],
-		 polygons->m[1][point+1],
+    if(z > 0){*/
+      draw_line( polygons->m[0][i],
+		 polygons->m[1][i],
+		 polygons->m[0][i+1],
+		 polygons->m[1][i+1],
 		 s, c);
       
-      draw_line( polygons->m[0][point+1],
-		 polygons->m[1][point+1],
-		 polygons->m[0][point+2],
-		 polygons->m[1][point+2],
+      draw_line( polygons->m[0][i+1],
+		 polygons->m[1][i+1],
+		 polygons->m[0][i+2],
+		 polygons->m[1][i+2],
 		 s, c);
       
-      draw_line( polygons->m[0][point+2],
-		 polygons->m[1][point+2],
-		 polygons->m[0][point],
-		 polygons->m[1][point],
+      draw_line( polygons->m[0][i+2],
+		 polygons->m[1][i+2],
+		 polygons->m[0][i],
+		 polygons->m[1][i],
 		 s, c);
-    }
+      //}
   }
 }
 
@@ -103,7 +103,7 @@ void draw_polygons( struct matrix *polygons, screen s, color c ) {
   upper-left corner is (x, y, z) with width, 
   height and depth dimensions.
   ====================*/
-void add_box( struct matrix * edges,
+void add_box( struct matrix * polygons,
 	      double x, double y, double z,
 	      double width, double height, double depth ) {
   
@@ -171,8 +171,8 @@ void add_sphere( struct matrix * polygons,
   longStop = num_steps;
   
   for(lat = latStart; lat<latStop;lat++){
-    for(longt = longStart; longt <= longStop; long++){
-      index = lat*longStop + longt
+    for(longt = longStart; longt <= longStop; longt++){
+      index = lat*longStop + longt;
       add_polygon(polygons,
 		  points->m[0][index],
 		  points->m[1][index],
@@ -189,9 +189,9 @@ void add_sphere( struct matrix * polygons,
 		  points->m[2][index],
 		  points->m[0][index+num_steps+1],
 		  points->m[1][index+num_steps+1],
-		  points->m[2][index+num_steps+1]
-		  points->m[0][index+num_steps]
-		  points->m[1][index+num_steps]
+		  points->m[2][index+num_steps+1],
+		  points->m[0][index+num_steps],
+		  points->m[1][index+num_steps],
 		  points->m[2][index+num_steps]);
       
     }
@@ -277,7 +277,7 @@ struct matrix * generate_sphere(double cx, double cy, double cz,
   should call generate_torus to create the
   necessary points
   ====================*/
-void add_torus( struct matrix * edges, 
+void add_torus( struct matrix * polygons, 
 		double cx, double cy, double cz,
 		double r1, double r2, double step ) {
   
@@ -309,9 +309,9 @@ void add_torus( struct matrix * edges,
                   points->m[2][index],
                   points->m[0][index+num_steps+1],
                   points->m[1][index+num_steps+1],
-                  points->m[2][index+num_steps+1]
-                  points->m[0][index+num_steps]
-                  points->m[1][index+num_steps]
+                  points->m[2][index+num_steps+1],
+                  points->m[0][index+num_steps],
+                  points->m[1][index+num_steps],
                   points->m[2][index+num_steps]);
 
     }
